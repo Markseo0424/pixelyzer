@@ -24,11 +24,11 @@ export default function TopBar() {
   };
 
   return (
-    <div className="flex items-center gap-2 px-3 h-12 border-b border-neutral-200 dark:border-neutral-800">
-      <div className="font-semibold">pixelyzer</div>
+    <div className="flex items-center gap-2 px-3 h-12 border-b border-neutral-200 dark:border-neutral-800 bg-[var(--background)]">
+      <div className="font-semibold text-[var(--foreground)]">pixelyzer</div>
       <div className="flex-1" />
       <button
-        className="px-3 py-1.5 rounded border text-sm"
+        className="px-3 py-1.5 rounded border text-sm text-[var(--foreground)]"
         onClick={openPreview}
       >
         Preview

@@ -24,7 +24,8 @@ export default function PreviewModal() {
   useEffect(() => {
     if (!isOpen) return;
     (async () => {
-      if (!imageBitmap || !imgW || !imgH || grid.cols <= 0 || grid.rows <= 0) return;
+      if (!imageBitmap || !imgW || !imgH || grid.cols <= 0 || grid.rows <= 0)
+        return;
       setBusy(true);
       try {
         const canvas = await renderPreviewCanvas({
@@ -45,7 +46,20 @@ export default function PreviewModal() {
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, imageBitmap, imgW, imgH, grid.cols, grid.rows, grid.rect.x, grid.rect.y, grid.rect.width, grid.rect.height, grid.samplingRadiusFactor, palette]);
+  }, [
+    isOpen,
+    imageBitmap,
+    imgW,
+    imgH,
+    grid.cols,
+    grid.rows,
+    grid.rect.x,
+    grid.rect.y,
+    grid.rect.width,
+    grid.rect.height,
+    grid.samplingRadiusFactor,
+    palette,
+  ]);
 
   const onDownload = async () => {
     const canvas = resultCanvas;
@@ -69,11 +83,18 @@ export default function PreviewModal() {
         {/* 배경 오버레이 */}
         <Dialog.Overlay className="fixed inset-0 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out" />
         {/* 컨텐츠 패널 */}
-        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-[--background] text-[--foreground] rounded-lg shadow-2xl p-4 w-[min(90vw,960px)] max-h-[90vh] overflow-auto border border-black/10 dark:border-white/10">
+        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--background)] text-[var(--foreground)] rounded-lg shadow-2xl p-4 w-[min(90vw,960px)] max-h-[90vh] overflow-auto border border-black/10 dark:border-white/10">
           <div className="flex items-start justify-between mb-2">
-            <Dialog.Title className="text-base font-semibold">Preview</Dialog.Title>
+            <Dialog.Title className="text-base font-semibold">
+              Preview
+            </Dialog.Title>
             <Dialog.Close asChild>
-              <button aria-label="Close" className="px-2 py-1 rounded border text-sm">Close</button>
+              <button
+                aria-label="Close"
+                className="px-2 py-1 rounded border text-sm"
+              >
+                Close
+              </button>
             </Dialog.Close>
           </div>
           <div className="flex items-start gap-4">
@@ -86,16 +107,29 @@ export default function PreviewModal() {
                     height: resultCanvas.height * scale,
                     background: `url(${resultCanvas.toDataURL()})`,
                     imageRendering: "pixelated",
-                    backgroundSize: `${resultCanvas.width * scale}px ${resultCanvas.height * scale}px`,
+                    backgroundSize: `${resultCanvas.width * scale}px ${
+                      resultCanvas.height * scale
+                    }px`,
                   }}
                 />
               )}
             </div>
             <div className="min-w-[240px] space-y-2">
-              <div className="text-sm">Size: {grid.cols} x {grid.rows}</div>
-              <div className="text-sm">Sampling radius: {grid.samplingRadiusFactor.toFixed(2)} × min(cw,ch)</div>
+              <div className="text-sm">
+                Size: {grid.cols} x {grid.rows}
+              </div>
+              <div className="text-sm">
+                Sampling radius: {grid.samplingRadiusFactor.toFixed(2)} ×
+                min(cw,ch)
+              </div>
               <div className="flex gap-2 mt-2">
-                <button className="px-3 py-1.5 rounded border" onClick={onDownload} disabled={!resultCanvas || busy}>Download PNG</button>
+                <button
+                  className="px-3 py-1.5 rounded border"
+                  onClick={onDownload}
+                  disabled={!resultCanvas || busy}
+                >
+                  Download PNG
+                </button>
                 <Dialog.Close asChild>
                   <button className="px-3 py-1.5 rounded border">Close</button>
                 </Dialog.Close>
