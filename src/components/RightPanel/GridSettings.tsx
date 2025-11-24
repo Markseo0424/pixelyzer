@@ -8,9 +8,14 @@ export default function GridSettings() {
   const showDots = useGridStore((s) => s.showDots);
   const showLines = useGridStore((s) => s.showLines);
   const lockAspect = useGridStore((s) => s.lockAspect);
+  const editMode = useGridStore((s) => s.editMode);
+  const samplingRadiusFactor = useGridStore((s) => s.samplingRadiusFactor);
+
   const setSize = useGridStore((s) => s.setSize);
   const setOverlay = useGridStore((s) => s.setOverlay);
   const setLockAspect = useGridStore((s) => s.setLockAspect);
+  const setEditMode = useGridStore((s) => s.setEditMode);
+  const setSampling = useGridStore((s) => s.setSampling);
 
   return (
     <div className="space-y-4 text-sm">
@@ -44,6 +49,14 @@ export default function GridSettings() {
           />
           <span>Lock aspect ratio (cols:rows)</span>
         </label>
+        <label className="flex items-center gap-2 mt-2">
+          <input
+            type="checkbox"
+            checked={editMode}
+            onChange={(e) => setEditMode(e.target.checked)}
+          />
+          <span>Edit grid (drag/resize on canvas)</span>
+        </label>
       </div>
       <div>
         <div className="font-medium mb-2">Overlay</div>
@@ -55,6 +68,21 @@ export default function GridSettings() {
           <input type="checkbox" checked={showLines} onChange={(e) => setOverlay({ showLines: e.target.checked })} />
           <span>Show lines</span>
         </label>
+      </div>
+      <div>
+        <div className="font-medium mb-2">Sampling</div>
+        <div className="flex items-center gap-2">
+          <label className="w-28">Radius factor</label>
+          <input
+            type="range"
+            min={0.1}
+            max={1.0}
+            step={0.05}
+            value={samplingRadiusFactor}
+            onChange={(e) => setSampling(Number(e.target.value))}
+          />
+          <span className="w-10 text-right tabular-nums">{samplingRadiusFactor.toFixed(2)}</span>
+        </div>
       </div>
     </div>
   );

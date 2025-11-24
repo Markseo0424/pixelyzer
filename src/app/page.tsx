@@ -2,6 +2,7 @@
 import TopBar from "@/components/TopBar";
 import CanvasStage from "@/components/CanvasStage";
 import RightPanel from "@/components/RightPanel/RightPanel";
+import PreviewModal from "@/components/PreviewModal";
 
 export default function Page() {
   return (
@@ -15,6 +16,7 @@ export default function Page() {
           <RightPanel />
         </div>
       </div>
+      <PreviewModal />
     </div>
   );
 }
