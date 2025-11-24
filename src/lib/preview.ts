@@ -10,10 +10,11 @@ export type RenderParams = {
   rows: number;
   samplingRadiusFactor: number; // e.g., 0.4
   palette: PaletteColor[];
+  usePalette: boolean;
 };
 
 export async function renderPreviewCanvas(p: RenderParams): Promise<HTMLCanvasElement> {
-  const { imageBitmap, imgW, imgH, rect, cols, rows, samplingRadiusFactor, palette } = p;
+  const { imageBitmap, imgW, imgH, rect, cols, rows, samplingRadiusFactor, palette, usePalette } = p;
 
   // 1) 준비: 소스 이미지 데이터를 얻기 위해 임시 캔버스에 원본 해상도로 드로우
   const srcCanvas = document.createElement("canvas");
@@ -77,13 +78,20 @@ export async function renderPreviewCanvas(p: RenderParams): Promise<HTMLCanvasEl
         count = 1;
       }
       const avg = { r: Math.round(accR / count), g: Math.round(accG / count), b: Math.round(accB / count) };
-      const best = nearestColor(avg, pal);
       const outIdx = 4 * (j * cols + i);
-      const rgb = hexToRgb(best.hex);
-      out[outIdx] = rgb.r;
-      out[outIdx + 1] = rgb.g;
-      out[outIdx + 2] = rgb.b;
-      out[outIdx + 3] = best.isTransparent ? 0 : 255;
+      if (!usePalette || pal.length === 0) {
+        out[outIdx] = avg.r;
+        out[outIdx + 1] = avg.g;
+        out[outIdx + 2] = avg.b;
+        out[outIdx + 3] = 255;
+      } else {
+        const best = nearestColor(avg, pal);
+        const rgb = hexToRgb(best.hex);
+        out[outIdx] = rgb.r;
+        out[outIdx + 1] = rgb.g;
+        out[outIdx + 2] = rgb.b;
+        out[outIdx + 3] = best.isTransparent ? 0 : 255;
+      }
     }
   }
 

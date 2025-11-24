@@ -18,6 +18,7 @@ export type GridState = {
   setLockAspect: (v: boolean) => void;
   setEditMode: (v: boolean) => void;
   setSampling: (v: number) => void;
+  fitToImage: (imageWidth: number, imageHeight: number) => void;
 };
 
 function snapRectToAspect(rect: GridRect, cols: number, rows: number): GridRect {
@@ -72,4 +73,37 @@ export const useGridStore = create<GridState>((set, get) => ({
   }),
   setEditMode: (v) => set({ editMode: v }),
   setSampling: (v) => set({ samplingRadiusFactor: Math.max(0.05, Math.min(2, v)) }),
+  fitToImage: (imageWidth, imageHeight) => {
+    if (imageWidth <= 0 || imageHeight <= 0) return;
+    const { cols, rows, lockAspect } = get();
+
+    let x = 0;
+    let y = 0;
+    let width = imageWidth;
+    let height = imageHeight;
+
+    if (!lockAspect || cols <= 0 || rows <= 0) {
+      x = 0;
+      y = 0;
+      width = imageWidth;
+      height = imageHeight;
+    } else {
+      const rImg = imageWidth / imageHeight;
+      const rGrid = cols / rows;
+      if (rGrid > rImg) {
+        height = imageHeight;
+        width = height * rGrid;
+      } else if (rGrid < rImg) {
+        width = imageWidth;
+        height = width / rGrid;
+      } else {
+        width = imageWidth;
+        height = imageHeight;
+      }
+      x = (imageWidth - width) / 2;
+      y = (imageHeight - height) / 2;
+    }
+
+    set({ rect: { x, y, width, height } });
+  },
 }));

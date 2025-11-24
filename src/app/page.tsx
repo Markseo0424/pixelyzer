@@ -12,7 +12,7 @@ export default function Page() {
         <div className="flex-1 min-w-0">
           <CanvasStage />
         </div>
-        <div className="w-[360px] shrink-0">
+        <div className="w-[400px] shrink-0">
           <RightPanel />
         </div>
       </div>

@@ -20,6 +20,7 @@ export default function PreviewModal() {
   const imgH = useImageStore((s) => s.height);
   const grid = useGridStore();
   const palette = usePaletteStore((s) => s.colors);
+  const usePaletteFlag = usePaletteStore((s) => s.isEnabled);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -37,7 +38,9 @@ export default function PreviewModal() {
           rows: grid.rows,
           samplingRadiusFactor: grid.samplingRadiusFactor,
           palette,
+          usePalette: usePaletteFlag,
         });
+        setResultCanvas(canvas);
         setResultCanvas(canvas);
       } catch (e) {
         console.error(e);
@@ -59,6 +62,7 @@ export default function PreviewModal() {
     grid.rect.height,
     grid.samplingRadiusFactor,
     palette,
+    usePaletteFlag,
   ]);
 
   const onDownload = async () => {
