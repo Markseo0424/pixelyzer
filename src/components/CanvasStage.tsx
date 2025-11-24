@@ -457,6 +457,7 @@ export default function CanvasStage() {
         showDots,
         showLines,
         editMode,
+        samplingRadiusFactor,
       } = useGridStore.getState();
       if (cols > 0 && rows > 0) {
         const cw = gRect.width / cols;
@@ -484,8 +485,24 @@ export default function CanvasStage() {
         }
         if (showDots) {
           ctx.save();
-          ctx.fillStyle = "#ff00aa";
-          const r = Math.max(1.5, 2.0 / Math.max(1, Math.sqrt(scale)));
+          // samplingRadiusFactor 기반 opacity 계산
+          const fMin = 0.05;
+          const fMax = 1.0;
+          const f = samplingRadiusFactor;
+          const fClamped = Math.max(fMin, Math.min(fMax, f));
+          const t = (fClamped - fMin) / (fMax - fMin || 1);
+
+          const opacityMax = 1.0;
+          const opacityMin = 0.3;
+          const opacity = opacityMax - (opacityMax - opacityMin) * t;
+
+          // 셀 크기에 비례하는 샘플링 반지름: factor=1이면 한 셀을 거의 채우도록 (r = cellSize / 2)
+          const cellSize = Math.min(cw, ch);
+          const rRaw = samplingRadiusFactor * (cellSize / 2);
+          const r = Math.max(1, rRaw);
+
+          ctx.fillStyle = `rgba(255, 0, 170, ${opacity})`;
+
           for (let i = 0; i < cols; i++) {
             for (let j = 0; j < rows; j++) {
               const cx = gRect.x + (i + 0.5) * cw;
