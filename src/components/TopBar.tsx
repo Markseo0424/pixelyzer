@@ -9,7 +9,9 @@ export default function TopBar() {
   const openPreview = usePreviewStore((s) => s.open);
 
   const onClickUpload = () => inputRef.current?.click();
-  const onChangeFile: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
+  const onChangeFile: React.ChangeEventHandler<HTMLInputElement> = async (
+    e
+  ) => {
     const file = e.target.files?.[0];
     if (!file) return;
     try {
@@ -17,7 +19,7 @@ export default function TopBar() {
     } catch (err) {
       console.error("Failed to load image:", err);
     } finally {
-      e.currentTarget.value = ""; // allow re-select same file
+      if (e.currentTarget) e.currentTarget.value = ""; // allow re-select same file
     }
   };
 
