@@ -7,13 +7,13 @@ export default function Head() {
 
   return (
     <>
-      {client && (
-        <script
-          async
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`}
-          crossOrigin="anonymous"
-        />
-      )}
+      {/* {client && ( */}
+      <script
+        async
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`}
+        crossOrigin="anonymous"
+      />
+      {/* )} */}
     </>
   );
 }
