@@ -2,6 +2,7 @@
 import * as Tabs from "@radix-ui/react-tabs";
 import GridSettings from "./GridSettings";
 import PaletteManager from "./PaletteManager";
+import AdsenseBanner from "@/components/AdsenseBanner";
 
 export default function RightPanel() {
   return (
@@ -21,6 +22,12 @@ export default function RightPanel() {
             Palette
           </Tabs.Trigger>
         </Tabs.List>
+
+        <div className="border-b border-neutral-200 dark:border-neutral-800 p-2">
+          {/* TODO: 실제 AdSense ad-slot ID로 교체하세요. */}
+          <AdsenseBanner slot="1234567890" className="h-24" />
+        </div>
+
         <Tabs.Content value="grid" className="p-3 overflow-auto grow">
           <GridSettings />
         </Tabs.Content>
