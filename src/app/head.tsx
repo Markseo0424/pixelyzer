@@ -4,7 +4,7 @@ export default function Head() {
   //   NEXT_PUBLIC_ADSENSE_CLIENT=ca-pub-XXXXXXXXXXXXXXXX
   // 값이 없으면 광고 스크립트를 로드하지 않습니다.
   const client = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
-
+  console.log(client);
   return (
     <>
       {/* {client && ( */}
